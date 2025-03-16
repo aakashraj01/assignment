@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:  
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  fastapi-app:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    image: fastapi-app
+    container_name: fastapi-app
+    ports:
+      - "0.0.0.0:5001:8000"
+    environment:
+      MONGO_URL: mongodb://mongodb:27017
+      DATABASE_NAME: globetrotter
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    command: >
+      bash -c "
+      uvicorn app.main:app --host 0.0.0.0 --port 8000
+      "
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    image: frontend
+    container_name: frontend
+    ports:
+      - "0.0.0.0:3001:5173"
+    depends_on:
+      fastapi-app:
+        condition: service_started
+    command: 
+      npm run dev -- --host 0.0.0.0
+
+volumes:
+  mongodb:

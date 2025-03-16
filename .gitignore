@@ -1,0 +1,66 @@
+node_modules
+.env
+
+# Python-specific
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# VS Code
+.vscode/
+
+# Frontend-specific
+.npm/
+.vuepress/dist
+.nuxt/
+dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Docker
+.dockerignore
+*.log
+docker-compose.override.yml
+
+# Backend specific
+backend/tmp/
+backend/logs/
+backend/*.log
+
+# Frontend specific
+frontend/tmp/
+frontend/logs/
+frontend/*.log
