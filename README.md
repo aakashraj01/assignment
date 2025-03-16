@@ -2,9 +2,6 @@
 Globetrotter is a full-stack web app where users get cryptic clues about a famous place and must guess which destination it refers to. Once they guess, they'll unlock fun facts, trivia, and surprises about the destination!
 
 
-## 🚀 Live Demo
-[To Play , Click Here](https://extraordinary-creation-production.up.railway.app/)
-
 ## 🛠 Tech Stack & Architecture
 
 ### Backend
@@ -25,7 +22,7 @@ Globetrotter is a full-stack web app where users get cryptic clues about a famou
   * Component-based architecture
 
 ### Deployment
-- **Platform**: Railway
+- **Platform**: Netlify
 - **Continuous Deployment**: Automated CI/CD pipeline
 
 ## 🎯 Project Overview
