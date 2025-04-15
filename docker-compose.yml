@@ -49,5 +49,19 @@ services:
     command: 
       npm run dev -- --host 0.0.0.0
 
+  frontend-react:
+    build:
+      context: frontendReact
+      dockerfile: Dockerfile
+    image: frontend-react
+    container_name: frontend-react
+    ports:
+      - "0.0.0.0:3002:5173"
+    depends_on:
+      fastapi-app:
+        condition: service_started
+    command: 
+      npm run dev -- --host 0.0.0.0
+
 volumes:
   mongodb:

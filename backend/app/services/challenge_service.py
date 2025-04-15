@@ -22,12 +22,47 @@ async def get_challenge_by_id(challenge_id: str) -> ChallengeResponse:
     if not creator:
         return None
     
-    return ChallengeResponse(
+    response = ChallengeResponse(
         challenge_id=challenge["challenge_id"],
         creator={
             "username": creator.username,
             "score": creator.score,
             "correct_answers": creator.correct_answers,
             "total_attempts": creator.total_attempts
-        }
+        },
+        status=challenge.get("status", "created"),
+        opponent_username=challenge.get("opponent_username"),
+        created_at=challenge.get("created_at")
     )
+    
+    return response
+
+async def accept_challenge(challenge_id: str, username: str) -> ChallengeResponse:
+    # First verify the challenge exists
+    challenge = await challenges_collection.find_one({"challenge_id": challenge_id})
+    if not challenge:
+        return None
+    
+    # Verify the user exists
+    user = await get_user_by_username(username)
+    if not user:
+        return None
+    
+    # Update the challenge with accepted status and opponent info
+    # For this implementation, we'll just mark it as accepted
+    # and keep track of who accepted it
+    update_result = await challenges_collection.update_one(
+        {"challenge_id": challenge_id},
+        {"$set": {
+            "status": "accepted",
+            "opponent_id": str(user.id),
+            "opponent_username": username
+        }}
+    )
+    
+    if update_result.modified_count == 0:
+        return None
+    
+    # Return the updated challenge
+    updated_challenge = await get_challenge_by_id(challenge_id)
+    return updated_challenge
